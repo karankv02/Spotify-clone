@@ -3,7 +3,7 @@ let songs;
 let currFolder;
 async function getSongs(folder) {
   currFolder = folder;
-  let a = await fetch(`https://karankv02.github.io/spotify-clone/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -79,7 +79,7 @@ const playMusic = (track, pause = false) => {
   
 };
 async function displayAlbums(){
-  let a = await fetch(`https://karankv02.github.io/spotify-clone/songs/`);
+  let a = await fetch(`/songs/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -89,9 +89,9 @@ async function displayAlbums(){
     for (let index = 0; index < array.length; index++) {
       const e = array[index];
       
-    if(e.href.includes("/songs/")){
+    if(e.href.includes("/songs/") && !e.href.includes(".htaccess")){
       let folder = e.href.split("/").slice(-1)[0]
-      let a = await fetch(`https://karankv02.github.io/spotify-clone/songs/${folder}/info.json`);
+      let a = await fetch(`/songs/${folder}/info.json`);
       let response = await a.json();
       cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}"class="card">
               <div class="play">
@@ -121,7 +121,7 @@ async function displayAlbums(){
                 </svg>
               </div>
               <img
-                src="/songs/${folder}/cover.jpg"
+                src="../songs/${folder}/cover.jpg"
                 alt=""
               />
               <h2>${response.title}</h2>
